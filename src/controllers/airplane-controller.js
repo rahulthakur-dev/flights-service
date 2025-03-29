@@ -1,6 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
 const { ErrorResponse, SuccessResponse } = require('../utils/common');
-const AppError = require('../utils/errors/app-error');
 
 
 class AirplaneController {
@@ -12,7 +11,7 @@ class AirplaneController {
      * POST : /airplanes 
      * req-body {modelNumber: 'airbus', capacity: 100}
      */
-    async createAirplane(req, res) {
+    createAirplane = async(req, res) =>  {
         try {
             const airplane = await this.airplaneService.createAirplane({
                 modelNumber: req.body.modelNumber,
@@ -23,6 +22,7 @@ class AirplaneController {
                 .status(StatusCodes.CREATED)
                 .json(SuccessResponse);
         } catch (error) {
+            ErrorResponse.error = error;
             return res
                 .status(error.statusCode)
                 .json(ErrorResponse);
