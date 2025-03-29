@@ -1,3 +1,3 @@
 module.exports = {
-    TestService: require("./test-service"),
+    AirplaneService: require("./airplane-service"),
 }

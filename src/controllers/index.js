@@ -1,3 +1,3 @@
 module.exports = {
-    TestController: require("./test-controller"),
+    AirplaneController: require("./airplane-controller"),
 }
