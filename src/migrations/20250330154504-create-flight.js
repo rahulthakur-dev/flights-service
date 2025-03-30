@@ -44,8 +44,8 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
-      departureAirport: {
-        type: Sequelize.STRING,
+      departureTime: {
+        type: Sequelize.DATE,
         allowNull: false,
       },
       price: {
