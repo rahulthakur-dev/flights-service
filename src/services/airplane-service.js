@@ -37,11 +37,11 @@ class AirplaneService {
         }
     }
 
-    async getAllAirplanes() {
+    async getAirplanes() {
         try {
             return await this.airplaneRepository.getAll();
         } catch (error) {
-            throw error;
+            throw new AppError('Cannot fetch data of all the airplanes', StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
 
