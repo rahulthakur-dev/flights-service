@@ -21,10 +21,13 @@ class AirplaneService {
         }
     }
 
-    async deleteAirplane(id) {
+    async destroyAirplane(id) {
         try {
             return await this.airplaneRepository.destroy(id);
         } catch (error) {
+            if (error.statusCode == StatusCodes.NOT_FOUND) {
+                throw new AppError('Airplane not found', StatusCodes.NOT_FOUND);
+            }
             throw error;
         }
     }
