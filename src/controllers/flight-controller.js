@@ -43,6 +43,25 @@ class FlightController {
                 .json(ErrorResponse);
         }
     }
+
+    /**
+     * GET : /flights
+     * query params : trips=12-11
+     */
+    getAllFlights = async (req, res) => {
+        try {
+            const flights = await this.flightService.getAllFlights(req.query);
+            SuccessResponse.data = flights;
+            return res
+                .status(StatusCodes.OK)
+                .json(SuccessResponse);
+        } catch (error) {
+            ErrorResponse.error = error;
+            return res
+                .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
+                .json(ErrorResponse);
+        }
+    }
 }
 
 module.exports = FlightController;
