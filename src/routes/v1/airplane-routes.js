@@ -17,6 +17,7 @@ router.post('/',
 );
 
 router.get('/', airplaneController.getAirplanes);
+router.get('/:id', airplaneController.getAirplane);
 
 
 

@@ -33,6 +33,9 @@ class AirplaneService {
         try {
             return await this.airplaneRepository.get(id);
         } catch (error) {
+            if(error.statusCode == StatusCodes.NOT_FOUND) {
+                throw new AppError('Airplane not found', StatusCodes.NOT_FOUND);
+            }
             throw error;
         }
     }
