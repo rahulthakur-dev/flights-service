@@ -1,11 +1,16 @@
-const { StatusCodes } =  require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 const { ErrorResponse } = require('../utils/common');
 const AppError = require("../utils/errors/app-error");
 
 function validateCreateRequest(req, res, next) {
-    if(!req.body.modelNumber) {
-        ErrorResponse.message = 'Model Number is required';
-        ErrorResponse.error = new AppError(['Model number not found in incoming request'], StatusCodes.BAD_REQUEST);
+    const { name, code, address, cityId } = req.body;
+
+    if (!name || !code || !cityId) {
+        ErrorResponse.message = 'Invalid request';
+        ErrorResponse.error = new AppError(
+            ['Name, code, address, and cityId are required fields'],
+            StatusCodes.BAD_REQUEST
+        );
         return res
             .status(StatusCodes.BAD_REQUEST)
             .json(ErrorResponse);
@@ -15,4 +20,4 @@ function validateCreateRequest(req, res, next) {
 
 module.exports = {
     validateCreateRequest
-}
+};
