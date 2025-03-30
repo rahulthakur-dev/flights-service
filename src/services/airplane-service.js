@@ -28,7 +28,7 @@ class AirplaneService {
             if (error.statusCode == StatusCodes.NOT_FOUND) {
                 throw new AppError('Airplane not found', StatusCodes.NOT_FOUND);
             }
-            throw error;
+            throw new AppError('Cannot delete a new Airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -39,7 +39,7 @@ class AirplaneService {
             if(error.statusCode == StatusCodes.NOT_FOUND) {
                 throw new AppError('Airplane not found', StatusCodes.NOT_FOUND);
             }
-            throw error;
+            throw new AppError('Cannot get Airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -55,7 +55,18 @@ class AirplaneService {
         try {
             return await this.airplaneRepository.update(id, data);
         } catch (error) {
-            throw error;
+            console.log(error);
+            if (error.name === 'SequelizeValidationError') {
+                let explanation = [];
+                error.errors.forEach((err) => {
+                    explanation.push(err.message);
+                });
+                throw new AppError(explanation, StatusCodes.BAD_REQUEST);
+            }
+            if (error.statusCode == StatusCodes.NOT_FOUND) {
+                throw new AppError('Airplane not found', StatusCodes.NOT_FOUND);
+            }
+            throw new AppError('Cannot update Airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
 }

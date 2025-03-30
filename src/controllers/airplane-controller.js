@@ -73,6 +73,21 @@ class AirplaneController {
                 .json(ErrorResponse);
         }
     }
+
+    updateAirplane = async(req, res) => {
+        try {
+            const airplane = await this.airplaneService.updateAirplane(req.params.id, req.body);
+            SuccessResponse.data = airplane;
+            return res
+                .status(StatusCodes.OK)
+                .json(SuccessResponse);
+        } catch (error) {
+            ErrorResponse.error = error;
+            return res
+                .status(error.statusCode)
+                .json(ErrorResponse);
+        }
+    }
 }
 
 module.exports = AirplaneController;
