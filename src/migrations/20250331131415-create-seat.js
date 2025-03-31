@@ -26,7 +26,7 @@ module.exports = {
         allowNull: false
       },
       col: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
       },
       type: {
