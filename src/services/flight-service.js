@@ -87,7 +87,7 @@ class AirplaneService {
     async getFlight(id) {
         try {
             const flight = await this.flightRepository.get(id);
-            console.log(flight);
+
             return flight;
         }
         catch (error) {
@@ -98,6 +98,18 @@ class AirplaneService {
             throw new AppError('Cannot get Flight',StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
+
+    async updateRemainingSeats( data) {
+        try {
+            const flight = await this.flightRepository.updateRemainingSeats(data.flightId, data.seats, data.dec);
+            return flight;
+        } catch (error) {
+            throw new AppError('Cannot update Flight', StatusCodes.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
 }
 
 module.exports = AirplaneService;

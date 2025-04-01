@@ -25,6 +25,26 @@ const validateCreateRequest = (req, res, next) => {
     next();
 };
 
+const updateRemainingSeats = async (req, res, next) => {
+    try {
+        const { flightId } = req.params;
+        const { seats, dec } = req.body;
+
+        if (!flightId || seats === undefined || dec === undefined) {
+            ErrorResponse.message = 'Invalid request body. Missing required fields: flightId, seats, or dec';
+            ErrorResponse.error = new AppError(['Missing required fields: flightId, seats, or dec'], StatusCodes.BAD_REQUEST);
+            return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
+        }
+
+        // Pass validation, proceed to the next middleware or service
+        next();
+    } catch (error) {
+        ErrorResponse.error = error;
+        return res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    }
+};
+
 module.exports = {
-    validateCreateRequest
+    validateCreateRequest,
+    updateRemainingSeats
 };

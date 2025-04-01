@@ -77,6 +77,26 @@ class FlightController {
                 .json(ErrorResponse);
         }
     }
+
+
+    updateRemainingSeats = async (req, res) => {
+        try {
+            const flight = await this.flightService.updateRemainingSeats({
+                flightId: req.params.flightId,
+                seats: req.body.seats,
+                dec: req.body.dec
+            });
+            SuccessResponse.data = flight;
+            return res
+                .status(StatusCodes.OK)
+                .json(SuccessResponse);
+        } catch (error) {
+            ErrorResponse.error = error;
+            return res
+                .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
+                .json(ErrorResponse);
+        }
+    }
 }
 
 module.exports = FlightController;
