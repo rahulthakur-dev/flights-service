@@ -4,8 +4,8 @@ const { isValidTimeRange } = require('../utils/helpers');
 const { Op } = require('sequelize');
 
 class AirplaneService {
-    constructor(airplaneRepository) {
-        this.airplaneRepository = airplaneRepository;
+    constructor(flightRepository) {
+        this.flightRepository = flightRepository;
     }
 
     async createFlight(data) {
@@ -17,7 +17,7 @@ class AirplaneService {
                 );
             }
 
-            return await this.airplaneRepository.create(data);
+            return await this.flightRepository.create(data);
         } catch (error) { 
             if (error.name === 'SequelizeValidationError') {
                 let explanation = error.errors.map(err => err.message);
@@ -66,7 +66,7 @@ class AirplaneService {
             }
 
             try{
-                const flights = await this.airplaneRepository.getAllFlights(customFilter, sortFilter);
+                const flights = await this.flightRepository.getAllFlights(customFilter, sortFilter);
                 return flights;
             }catch(error){
                 throw new AppError(
@@ -75,12 +75,27 @@ class AirplaneService {
                 );
             }
 
-            return await this.airplaneRepository.getAllFlights(filter);
+            return await this.flightRepository.getAllFlights(filter);
         } catch (error) {
             throw new AppError(
                 error.message || 'Cannot get all Flights',
                 StatusCodes.INTERNAL_SERVER_ERROR
             );
+        }
+    }
+
+    async getFlight(id) {
+        try {
+            const flight = await this.flightRepository.get(id);
+            console.log(flight);
+            return flight;
+        }
+        catch (error) {
+            console.log(error);
+            if(error.statusCode === StatusCodes.NOT_FOUND){
+                throw new AppError('Flight not found',StatusCodes.NOT_FOUND);
+            }
+            throw new AppError('Cannot get Flight',StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
 }
